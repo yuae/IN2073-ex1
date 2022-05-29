@@ -56,11 +56,11 @@ app.get('/api/profile', (req, res) => {
     'name': 'YY',
     'homeCountry': 'C',
     'degreeProgram': 'CS',//informatics or CSE.. etc
-    'email': '',
+    'email': 'ge23fuf@mytum.de',
     'deployedURLLink': '',//leave this blank for the first exercise
     'apiDocumentationURL': '', //leave this also blank for the first exercise
-    'currentCity': '',
-    'hobbies': []
+    'currentCity': 'Munich',
+    'hobbies': ['none']
   })
 });
 /*
