@@ -14,6 +14,7 @@ app.use(express.static(__dirname + '/public'));
  ************/
 
 const db = require('./models');
+const BooksModel = require('./models/books');
 
 /**********
  * ROUTES *
@@ -43,21 +44,23 @@ app.get('/api', (req, res) => {
       {method: 'GET', path: '/api/profile', description: 'Data about me'},
       {method: 'GET', path: '/api/books/', description: 'Get All books information'},
       // TODO: Write other API end-points description here like above
+      {method: 'POST', path:'/api/books/', description: 'add new book entry'},
+      {method: 'PUT', path: '/api/books/:id', description: 'update book info'},
+      {method: 'POST', path: '/api/books/:id', description: 'delete book entry'}
     ]
   })
 });
 // TODO:  Fill the values
 app.get('/api/profile', (req, res) => {
   res.json({
-    'name': '',
-    'homeCountry': '',
-    'degreeProgram': '',//informatics or CSE.. etc
+    'name': 'YY',
+    'homeCountry': 'C',
+    'degreeProgram': 'CS',//informatics or CSE.. etc
     'email': '',
     'deployedURLLink': '',//leave this blank for the first exercise
     'apiDocumentationURL': '', //leave this also blank for the first exercise
     'currentCity': '',
     'hobbies': []
-
   })
 });
 /*
@@ -88,11 +91,28 @@ app.post('/api/books/', (req, res) => {
    * TODO: use the books model and create a new object
    * with the information in req.body
    */
+  const nbook = new BooksModel ({
+    title: req.body.title, // title of the book
+    author: req.body.author, // name of the first author
+    releaseDate: req.body.releaseDate, // release date of the book
+    genre: req.body.genre, //like fiction or non fiction
+    rating: req.body.tating, // rating if you have read it out of 5
+    language: req.body.language // language in which the book is released
+  });
+  db.books.create(nbook, function (err, newBooks) {
+    if (err) throw err;
+    /*
+     * return the object as array of json values
+     */
+    res.json(newBooks);
+  });
   /*
    * return the new book information object as json
    */
+  /*
   var newBook = {};
   res.json(newBook);
+  */
 });
 
 /*
@@ -109,11 +129,28 @@ app.put('/api/books/:id', (req, res) => {
   /*
    * TODO: use the books model and find using the bookId and update the book information
    */
+  const updates = {
+    title: req.body.title, // title of the book
+    author: req.body.author, // name of the first author
+    releaseDate: req.body.releaseDate, // release date of the book
+    genre: req.body.genre, //like fiction or non fiction
+    rating: req.body.tating, // rating if you have read it out of 5
+    language: req.body.language // language in which the book is released
+  };
+  db.books.findOneAndUpdate({_id: bookId}, updates, function (err, updatedBookInfo) {
+    if (err) throw err;
+    /*
+     * return the object as json values
+     */
+    res.json(updatedBookInfo);
+  });
   /*
    * Send the updated book information as a JSON object
    */
+  /*
   var updatedBookInfo = {};
   res.json(updatedBookInfo);
+  */
 });
 /*
  * Delete a book based upon the specified ID
@@ -127,11 +164,20 @@ app.delete('/api/books/:id', (req, res) => {
    * TODO: use the books model and find using
    * the bookId and delete the book
    */
+  db.books.findOneAndDelete({ _id: bookId}, function (err, deletedBook) {
+    if (err) throw err;
+    /*
+     * return the object as json values
+     */
+    res.json(deletedBook);
+  });
   /*
    * Send the deleted book information as a JSON object
    */
+  /*
   var deletedBook = {};
   res.json(deletedBook);
+  */
 });
 
 
