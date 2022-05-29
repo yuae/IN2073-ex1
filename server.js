@@ -96,7 +96,7 @@ app.post('/api/books/', (req, res) => {
     author: req.body.author, // name of the first author
     releaseDate: req.body.releaseDate, // release date of the book
     genre: req.body.genre, //like fiction or non fiction
-    rating: req.body.tating, // rating if you have read it out of 5
+    rating: req.body.rating, // rating if you have read it out of 5
     language: req.body.language // language in which the book is released
   });
   db.books.create(nbook, function (err, newBooks) {
@@ -134,7 +134,7 @@ app.put('/api/books/:id', (req, res) => {
     author: req.body.author, // name of the first author
     releaseDate: req.body.releaseDate, // release date of the book
     genre: req.body.genre, //like fiction or non fiction
-    rating: req.body.tating, // rating if you have read it out of 5
+    rating: req.body.rating, // rating if you have read it out of 5
     language: req.body.language // language in which the book is released
   };
   db.books.findOneAndUpdate({_id: bookId}, updates, function (err, updatedBookInfo) {
